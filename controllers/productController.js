@@ -1,4 +1,5 @@
 const Product = require("../models/productModel");
+const { getPostData } = require("../utils");
 
 // @desc Get all products
 // @route GET /api/products
@@ -35,13 +36,18 @@ async function getProduct(requete, reponse, id) {
 // @route POST /api/products
 async function createProduct(requete, reponse) {
   try {
+    const body = await getPostData(requete); // appeler la fonction getPostData pour extraire le body de la requête
+
+    const { name, description, price } = JSON.parse(body); // extraire les données du body
+
     const product = {
-      // pour tester la création d'un produit on crée un objet product avec des valeurs
-      name: "Nouveau produit",
-      description: "Description du nouveau produit",
-      price: 100,
+      name,
+      description,
+      price,
     };
-    const newProduct = Product.create(product);
+
+    const newProduct = await Product.create(product);
+
     reponse.writeHead(201, { "Content-Type": "application/json" });
     return reponse.end(JSON.stringify(newProduct));
   } catch (error) {
@@ -49,4 +55,4 @@ async function createProduct(requete, reponse) {
   }
 }
 
-module.exports = { getProducts, getProduct };
+module.exports = { getProducts, getProduct, createProduct };

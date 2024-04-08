@@ -1,6 +1,6 @@
 const products = require("../data/products"); // appeler les données dans le fichier products.js
 const { v4: uuidv4 } = require("uuid"); // appeler la fonction uuidv4 pour générer un id unique
-const { writeDateToFile } = require("../utils"); // appeler la fonction writeDateToFile pour écrire les données dans un fichier
+const { writeDataToFile } = require("../utils"); // appeler la fonction writeDateToFile pour écrire les données dans un fichier
 
 // déclarer la fonction findAll pour retourner tous les produits
 // la fonction retourne une promesse qui sera résolue avec les produits
@@ -23,7 +23,7 @@ function create(product) {
   return new Promise((resolve, reject) => {
     const newProduct = { ...product, id: uuidv4() }; // créer un nouveau produit avec un id unique*
     products.push(newProduct); // ajouter le nouveau produit au tableau products
-    writeDateToFile("../data/products.json", products); // écrire les données dans le fichier products.json
+    writeDataToFile("./data/products.json", products); // écrire les données dans le fichier products.json
     resolve(newProduct);
   });
 }
