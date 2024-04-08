@@ -1,6 +1,6 @@
-const { rejects } = require("assert");
 const fs = require("fs");
 
+// Fonction pour écrire les données dans le fichier JSON des produits
 function writeDataToFile(filename, content) {
   fs.writeFileSync(filename, JSON.stringify(content), "utf-8", (err) => {
     if (err) {
@@ -9,6 +9,7 @@ function writeDataToFile(filename, content) {
   });
 }
 
+// Fonction pour extraire le body de la requête
 function getPostData(req) {
   return new Promise((resolve, reject) => {
     try {

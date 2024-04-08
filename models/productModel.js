@@ -1,4 +1,4 @@
-const products = require("../data/products"); // appeler les données dans le fichier products.js
+let products = require("../data/products"); // appeler les données dans le fichier products.js
 const { v4: uuidv4 } = require("uuid"); // appeler la fonction uuidv4 pour générer un id unique
 const { writeDataToFile } = require("../utils"); // appeler la fonction writeDateToFile pour écrire les données dans un fichier
 
@@ -28,5 +28,24 @@ function create(product) {
   });
 }
 
+function update(id, product) {
+  return new Promise((resolve, reject) => {
+    const index = products.findIndex((p) => p.id === id);
+    products[index] = { id, ...product };
+    if (process.env.NODE_ENV !== "test") {
+      writeDataToFile("./data/products.json", products);
+    }
+    resolve(products[index]);
+  });
+}
+
+function remove(id, product) {
+  return new Promise((resolve, reject) => {
+    products = products.filter((p) => p.id !== id);
+    writeDataToFile("./data/products.json", products);
+    resolve();
+  });
+}
+
 // Exporter la fonction find pour l'appeler dans d'autres fichiers
-module.exports = { findAll, findById, create };
+module.exports = { findAll, findById, create, update, remove };

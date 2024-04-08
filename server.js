@@ -3,6 +3,8 @@ const {
   getProducts,
   getProduct,
   createProduct,
+  updateProduct,
+  deleteProduct,
 } = require("./controllers/productController");
 
 const server = http.createServer((requete, reponse) => {
@@ -14,6 +16,18 @@ const server = http.createServer((requete, reponse) => {
   ) {
     const id = requete.url.split("/")[3]; // extraire l'id de l'URL 3 est l'index de l'id dans l'URL
     getProduct(requete, reponse, id);
+  } else if (
+    requete.url.match(/\/api\/products\/([0-9]+)/) &&
+    requete.method === "PUT"
+  ) {
+    const id = requete.url.split("/")[3];
+    updateProduct(requete, reponse, id);
+  } else if (
+    requete.url.match(/\/api\/products\/([0-9]+)/) &&
+    requete.method === "DELETE"
+  ) {
+    const id = requete.url.split("/")[3];
+    deleteProduct(requete, reponse, id);
   } else if (requete.url === "/api/products" && requete.method === "POST") {
     createProduct(requete, reponse);
   } else {
